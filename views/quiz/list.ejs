@@ -1,0 +1,18 @@
+<div class="discover-header">
+    <h1><%= categoryName %> Quizzes</h1>
+    <a href="/" class="btn-back">← Back to Categories</a>
+</div>
+
+<div class="quiz-grid">
+    <% if (quizzes.length > 0) { %>
+        <% quizzes.forEach(quiz => { %>
+            <div class="quiz-card">
+                <h3><%= quiz.title %></h3>
+                <p>Test your knowledge in <%= categoryName %></p>
+                <a href="/quiz/play/<%= quiz.id %>" class="btn-start">Start Quiz →</a>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p>No quizzes found in this category yet. Be the first to create one!</p>
+    <% } %>
+</div>

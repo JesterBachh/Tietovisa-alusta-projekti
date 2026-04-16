@@ -1,0 +1,13 @@
+<section class="hero">
+    <h1>Tervetuloa Tietovisaan!</h1>
+    <p>Valitse kategoria и aloita oppiminen.</p>
+</section>
+
+<div class="category-grid">
+    <% categories.forEach(cat => { %>
+        <div class="category-card">
+            <h2><%= cat.name %></h2>
+            <a href="/category/<%= cat.id %>" class="btn-start">Katso visat →</a>
+        </div>
+    <% }) %>
+</div>\\\\

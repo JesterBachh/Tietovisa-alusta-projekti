@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fi">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/main.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="main-header">
+      <nav class="container">
+        <a href="/" class="logo">Tietovisa-alusta</a>
+        <div class="nav-links">
+          <a href="/discover" class="btn-discover">Discover</a>
+          <a href="/make" class="btn-new">NEW +</a>
+          <a href="/login" class="btn-login">Log in</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container"><%- body %></main>
+
+    <footer class="main-footer">
+      <p>Created by Denys Kosovych, Vjaceslavs Turins ja Niko Lempinen</p>
+    </footer>
+  </body>
+</html>

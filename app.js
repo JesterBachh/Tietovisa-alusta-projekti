@@ -3,16 +3,32 @@ const express = require("express");
 const path = require("path");
 const db = require("./config/db");
 const expressLayouts = require("express-ejs-layouts");
+const session = require("express-session");
+const bcrypt = require("bcrypt");
 
 const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "super_secret_key",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 },
+  }),
+);
+
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(expressLayouts);
 app.set("layout", "layout");
-
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.urlencoded({ extended: true }));
 
 app.get("/", async (req, res) => {
   try {
@@ -37,7 +53,6 @@ app.get("/category/:id", async (req, res) => {
       "SELECT name FROM categories WHERE id = ?",
       [categoryId],
     );
-
     const [quizzes] = await db.query(
       "SELECT * FROM quizzes WHERE category_id = ?",
       [categoryId],
@@ -74,6 +89,60 @@ app.get("/quiz/play/:id", async (req, res) => {
     console.error("Error loading quiz:", error);
     res.redirect("/");
   }
+});
+
+// Auth routes
+
+app.get("/register", (req, res) =>
+  res.render("auth/register", { title: "Register" }),
+);
+app.get("/login", (req, res) => res.render("auth/login", { title: "Login" }));
+
+app.post("/register", async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await db.query("INSERT INTO users (username, password) VALUES (?, ?)", [
+      username,
+      hashedPassword,
+    ]);
+    res.redirect("/login");
+  } catch (error) {
+    console.error("Error registering:", error);
+    res.send("User already exists or DB error.");
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const [users] = await db.query("SELECT * FROM users WHERE username = ?", [
+      username,
+    ]);
+
+    if (users.length > 0) {
+      const user = users[0];
+      const match = await bcrypt.compare(password, user.password);
+      if (match) {
+        req.session.user = {
+          id: user.id,
+          username: user.username,
+          role: user.role,
+        };
+        return res.redirect("/");
+      }
+    }
+    res.send("Invalid username or password.");
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).send("Login error occurred");
+  }
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
 });
 
 const PORT = process.env.PORT || 3000;

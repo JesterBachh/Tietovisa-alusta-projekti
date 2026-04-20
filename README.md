@@ -12,3 +12,6 @@ SESSION_SECRET=super_secret_key
 и перед тем как пушить апдейт создайте файл который называется .gitignore и напишите туда
 node_modules/
 .env
+
+обновить зависимости надо
+npm install bcrypt express-session

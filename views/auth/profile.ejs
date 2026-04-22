@@ -1,0 +1,38 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <h1>Hello, <%= user.username %>!</h1>
+    <p class="user-role">Status: <%= user.role || 'Player'></p>
+  </div>
+
+<div class="container">
+    <h2>Games Played</h2>
+    
+    <% if (scores && scores.length > 0) { %>
+        <div class="score-grid">
+            <% scores.forEach(s => { 
+                // Высчитываем процент заранее, чтобы не ломать синтаксис внутри style
+                let percent = s.total_questions > 0 ? Math.round((s.score / s.total_questions) * 100) : 0;
+            %>
+                <div class="score-item">
+                    <div class="quiz-info">
+                        <strong><%= s.title %></strong>
+                        <small><%= new Date(s.played_at).toLocaleDateString('fi-FI') %></small>
+                    </div>
+                    
+                    <div class="score-value">
+                        <span class="points"><%= s.score %> / <%= s.total_questions %></span>
+                        
+                        <div class="progress-bar-bg" style="margin: 10px 0;">
+                            <div id="progress-bar" style="--p: <%= percent %>%;"></div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <div class="empty-state" style="text-align: center; padding: 40px;">
+            <p>You haven't played any quizzes yet.</p>
+            <a href="/" class="btn-discover">Find Quizzes</a>
+        </div>
+    <% } %>
+</div>

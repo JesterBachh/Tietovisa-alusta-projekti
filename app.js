@@ -145,6 +145,41 @@ app.get("/logout", (req, res) => {
   });
 });
 
+app.post("/quiz/submit/:id", async (req, res) => {
+  if (!req.session.user) return res.status(401).json({ error: "Unauthorized" });
+
+  const { quiz_id, score, total_questions } = req.body;
+  try {
+    await db.query(
+      "INSERT INTO scores (user_id, quiz_id, score, total_questions) VALUES ( ?, ?, ?, ?)",
+      [req.session.user.id, quiz_id, score, total_questions],
+    );
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to save score" });
+  }
+});
+
+app.get("/profile", async (req,res) => {
+  if (!req.session.user) return res.redirect("/login");
+
+  try {
+    const [myScores] = await db.query(
+      `SELECT scores.*, quizzes.title
+      FROM scores
+      JOIN quizzes ON scores.quiz_id = quizzes.id
+      WHERE scores.user_id = ?
+      ORDER BY played_at DESC`,
+      [req.session.user.id]
+    );
+    res.render("auth/profile", { title: "My Profile", scores: myScores});
+  } catch(err) {
+    console.error(err);
+    res.status(500).send("Error loading profile");
+  }
+})
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running: http://localhost:${PORT}`);

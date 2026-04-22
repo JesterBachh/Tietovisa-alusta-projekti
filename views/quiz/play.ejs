@@ -78,6 +78,23 @@
     document.getElementById("score-text").innerText =
       `Your score: ${score} / ${questions.length}`;
     document.getElementById("progress-bar").style.width = "100%";
+
+    const quizId = quentions[0].category_id;
+
+    fetch("/quiz/save-score", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        quiz_id: "<%= quiz.id%>",
+        score: score,
+        total_questions: questions.length,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Score saved:", data);
+      })
+      .catch((err) => console.error("Error saving score:", err));
   }
 
   if (questions.length > 0) showQuestion();

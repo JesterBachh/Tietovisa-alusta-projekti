@@ -152,6 +152,24 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
+.user-profile-link {
+  text-decoration: none;
+  color: inherit;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.user-profile-link:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.user-name {
+  font-weight: 600;
+  color: var(--primary-color, #333);
+  margin-right: 10px;
+}
+
 #progress-bar {
   width: var(--p, 0%);
 }

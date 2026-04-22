@@ -161,7 +161,7 @@ app.post("/quiz/submit/:id", async (req, res) => {
   }
 });
 
-app.get("/profile", async (req,res) => {
+app.get("/profile", async (req, res) => {
   if (!req.session.user) return res.redirect("/login");
 
   try {
@@ -171,14 +171,14 @@ app.get("/profile", async (req,res) => {
       JOIN quizzes ON scores.quiz_id = quizzes.id
       WHERE scores.user_id = ?
       ORDER BY played_at DESC`,
-      [req.session.user.id]
+      [req.session.user.id],
     );
-    res.render("auth/profile", { title: "My Profile", scores: myScores});
-  } catch(err) {
+    res.render("auth/profile", { title: "My Profile", scores: myScores });
+  } catch (err) {
     console.error(err);
     res.status(500).send("Error loading profile");
   }
-})
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

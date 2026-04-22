@@ -10,24 +10,27 @@
     />
   </head>
   <body>
-    <header class="main-header">
-      <nav class="container">
-        <a href="/" class="logo">Tietovisa-alusta</a>
-        <div class="nav-links">
-          <a href="/discover" class="btn-discover">Discover</a>
+<header class="main-header">
+  <nav class="container">
+    <a href="/" class="logo">Tietovisa-alusta</a>
+    <div class="nav-links">
+      <a href="/discover" class="btn-discover">Discover</a>
 
-          <% if (user) { %>
-            <a href="/make" class="btn-new">NEW +</a>
-            <span class="user-name">Moi, <%= user.username %>!</span>
-            <a href="/logout" class="btn-login" style="background: #e74c3c; border-color: #e74c3c;">Log out</a>
-          <% } else { %>
-            <a href="/login" class="btn-login">Log in</a>
-            <a href="/register" class="btn-new" style="background: var(--blue);">Register</a>
-          <% } %>
-          
-        </div>
-      </nav>
-    </header>
+      <% if (user) { %>
+        <a href="/make" class="btn-new">NEW +</a>
+        
+        <a href="/profile" class="user-profile-link">
+          <span class="user-name">Hello, <%= user.username %>!</span>
+        </a>
+
+        <a href="/logout" class="btn-login" style="background: #e74c3c; border-color: #e74c3c;">Log out</a>
+      <% } else { %>
+        <a href="/login" class="btn-login">Log in</a>
+        <a href="/register" class="btn-new" style="background: var(--blue);">Register</a>
+      <% } %>
+    </div>
+  </nav>
+</header>
 
     <main class="container"><%- body %></main>
 

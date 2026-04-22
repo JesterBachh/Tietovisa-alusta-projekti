@@ -1,16 +1,15 @@
 <div class="profile-container">
   <div class="profile-header">
     <h1>Hello, <%= user.username %>!</h1>
-    <p class="user-role">Status: <%= user.role || 'Player'></p>
+    <p class="user-role">Status: <%= user.role || 'Player' %></p> 
   </div>
 
-<div class="container">
+  <div class="container">
     <h2>Games Played</h2>
     
     <% if (scores && scores.length > 0) { %>
         <div class="score-grid">
             <% scores.forEach(s => { 
-                // Высчитываем процент заранее, чтобы не ломать синтаксис внутри style
                 let percent = s.total_questions > 0 ? Math.round((s.score / s.total_questions) * 100) : 0;
             %>
                 <div class="score-item">
@@ -35,4 +34,5 @@
             <a href="/" class="btn-discover">Find Quizzes</a>
         </div>
     <% } %>
+  </div>
 </div>

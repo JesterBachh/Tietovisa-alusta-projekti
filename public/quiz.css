@@ -1,0 +1,168 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  color: #333;
+}
+
+header,
+footer {
+  background-color: #154162;
+  color: white;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-wrapper {
+  max-width: 1200px;
+  margin: 40px auto;
+  display: flex;
+  gap: 50px;
+  padding: 0 20px;
+}
+
+.quiz-meta {
+  flex: 1;
+}
+
+.quiz-meta h1 {
+  font-family: "Monserrat", sans-serif;
+  font-size: 2.2rem;
+  margin-bottom: 5px;
+}
+
+.quiz-meta p {
+  color: #777;
+  margin-bottom: 30px;
+}
+
+.input-block {
+  margin-bottom: 20px;
+}
+
+.input-block label {
+  display: flex;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.input-block input,
+.input-block select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid#ccc;
+  background-color: #e2e2e2;
+  border-radius: 4px;
+}
+
+.question-buider {
+  flex: 1.2;
+}
+
+.question-buider h2 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.question-box {
+  background-color: #dcdcdc;
+  padding: 35px;
+  border-radius: 35px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.q-label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.question-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bbb;
+  margin-bottom: 20px;
+}
+
+.answers-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.answers-field {
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  background: white;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #555;
+}
+
+.dot.green {
+  background-color: #4caf50;
+  border: none;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: 1px solid #999;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-yellow {
+  background-color: #f1dc8d;
+}
+
+.btn-green {
+  background-color: #b8e2b9;
+}
+
+btn:hover {
+  filter: brightness(0.9);
+}
+
+.correct-tag {
+  background-color: #f1dc8d;
+  padding: 5px 15px;
+  display: inline-block;
+  border: 1px solid #999;
+  font-size: 0.8rem;
+  margin-top: 10px;
+}

@@ -1,0 +1,62 @@
+<%- include('../layout') %>
+
+<main class="main-wrapper">
+
+    <section class="quiz-meta">
+
+        <h1>Create Quiz</h1>
+        <p>Fill in the details below to create a new quiz</p>
+        
+        <form action="/quiz/make" method="post" id="quizForm">
+
+            <div class="input-block">
+                <label for="category-id">Category</label>
+                <select name="category-id" id="category-id">
+                    <% categories.forEach(cat => {
+                        <option value="<%= cat.id %>"><%= cat.name %></option>
+                        <% });
+                </select>
+            </div>
+        </form>
+
+    </section>
+
+    <section class="question-builder">
+        <h2>Questions</h2>
+
+        <div class="question-box">
+            <span class="q-label">Question 1</span>
+
+            <input type="text" name="question-input" class="question-input" placeholder="Enter your question" form="quizForm">
+
+            <div class="status-row">
+                <div class="indicator">
+                    <div class="dot-green"></div>
+                    <span>Answer A</span>
+                </div>
+
+                <div class="indicator">
+                    <div class="dot"></div> 
+                    <span>Correct answer</span>
+                </div>
+            </div>
+
+            <p class="q-label">Answers</p>
+            <div class="answers-container">
+                <input type="text" class="answer-field" name="answer_a" placeholder="Answer A" form="quizForm">
+                <input type="text" class="answer-field" name="answer_b" placeholder="Answer B" form="quizForm">
+                <input type="text" class="answer-field" name="answer_c" placeholder="Answer C" form="quizForm">
+                <input type="text" class="answer-field" name="answer_d" placeholder="Answer D" form="quizForm">
+            </div>
+
+            <div class="correct-tag">Correct ✏️</div>
+
+            <div class="action-buttons">
+                <button type="submit" form="quiaForm" class="btn btn-green">Submit Quiz</button>
+                <button type="button" class="btn btn-yellow">Add new question</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<%- include('./footer') %>

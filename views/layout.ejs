@@ -1,41 +1,49 @@
 <!DOCTYPE html>
 <html lang="fi">
-  <head>
+<head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
+    
     <link rel="stylesheet" href="/main.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-<header class="main-header">
-  <nav class="container">
-    <a href="/" class="logo">Tietovisa-alusta</a>
-    <div class="nav-links">
-      <a href="/discover" class="btn-discover">Discover</a>
+    <link rel="stylesheet" href="/auth.css" />
+    <link rel="stylesheet" href="/quiz.css" />
 
-      <% if (user) { %>
-        <a href="/quiz/make" class="btn-new">NEW +</a>
-        
-        <a href="/auth/profile" class="user-profile-link">
-          <span class="user-name">Hello, <%= user.username %>!</span>
-        </a>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <div class="site-wrapper">
+        <header class="main-header">
+            <nav class="container">
+                <a href="/" class="logo">Tietovisa-alusta</a>
+                <div class="nav-links">
+                    <a href="/" class="btn-discover">Discover</a>
 
-        <a href="/auth/logout" class="btn-login" style="background: #e74c3c; border-color: #e74c3c;">Log out</a>
-      <% } else { %>
-        <a href="/auth/login" class="btn-login">Log in</a>
-        <a href="/auth/register" class="btn-new" style="background: var(--blue);">Register</a>
-      <% } %>
+                    <% if (user) { %>
+                        <a href="/quiz/make" class="btn-new">NEW +</a>
+                        <a href="/auth/profile" class="user-profile-link">
+                            <span class="user-name">Hello, <%= user.username %>!</span>
+                        </a>
+                        <a href="/auth/logout" class="btn-login" style="background: #e74c3c; border-color: #e74c3c;">Log out</a>
+                    <% } else { %>
+                        <a href="/auth/login" class="btn-login">Log in</a>
+                        <a href="/auth/register" class="btn-new" style="background: var(--blue, #154162);">Register</a>
+                    <% } %>
+                </div>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <div class="container">
+                <%- body %>
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <div class="container">
+                <p>Created by Denys Kosovych, Vjaceslavs Turins ja Niko Lempinen &copy; 2024</p>
+            </div>
+        </footer>
     </div>
-  </nav>
-</header>
-
-    <main class="container"><%- body %></main>
-
-    <footer class="main-footer">
-      <p>Created by Denys Kosovych, Vjaceslavs Turins ja Niko Lempinen</p>
-    </footer>
-  </body>
+</body>
 </html>

@@ -1,89 +1,105 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    height: 100vh;
-    background: #1f4a67;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.auth-page {
+  min-height: calc(100vh - 160px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1f4a67 0%, #154162 100%);
+  padding: 20px;
 }
 
 .card {
-    background: #e5e5e5;
-    padding: 30px 25px;
-    width: 320px;
-    border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
-    text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
 }
 
 .card h2 {
-    margin-bottom: 20px;
-    color: #333;
+  margin-bottom: 30px;
+  color: #154162;
+  font-family: "Montserrat", sans-serif;
+  font-size: 28px;
 }
 
 .card label {
-    display: block;
-    text-align: left;
-    font-size: 14px;
-    margin: 10px 0 5px;
-    color: #333;
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 15px 0 8px;
+  color: #555;
 }
 
 .card input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    background: #d3d3d3;
-    outline: none;
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 2px solid #eee;
+  background: #fdfdfd;
+  outline: none;
+  transition: all 0.3s;
+  font-size: 16px;
+}
+
+.card input:focus {
+  border-color: #f1dc8d;
+  background: #fff;
+  box-shadow: 0 0 8px rgba(241, 220, 141, 0.3);
 }
 
 .forgot {
-    font-size: 12px;
-    color: #777;
-    text-align: left;
-    margin-top: 5px;
-    display: inline-block;
-    text-decoration: none;
+  font-size: 13px;
+  color: #154162;
+  float: right;
+  margin-top: 5px;
+  text-decoration: none;
+  font-weight: 500;
 }
 
 .forgot:hover {
-    color: #333;
+  text-decoration: underline;
 }
 
-.btn {
-    margin-top: 20px;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    background: #2e8b3c;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.3s;
+.auth-btn {
+  margin-top: 30px;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: #154162;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(21, 65, 98, 0.2);
 }
 
-.btn:hover {
-    background: #256e30;
+.auth-btn:hover {
+  background: #1c5682;
+  transform: scale(1.02);
 }
 
 .switch {
-    margin-top: 15px;
-    font-size: 13px;
+  margin-top: 25px;
+  font-size: 14px;
+  color: #666;
 }
 
 .switch a {
-    color: #2e8b3c;
-    text-decoration: none;
+  color: #154162;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .switch a:hover {
-    text-decoration: underline;
+  color: #2e8b3c;
 }

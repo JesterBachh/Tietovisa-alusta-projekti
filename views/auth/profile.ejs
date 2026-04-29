@@ -7,22 +7,22 @@
   <div class="container">
     <h2>Games Played</h2>
     
-    <% if (scores && scores.length > 0) { %>
+    <% if (results && results.length > 0) { %>
         <div class="score-grid">
-            <% scores.forEach(s => { 
+            <% results.forEach(s => { 
                 let percent = s.total_questions > 0 ? Math.round((s.score / s.total_questions) * 100) : 0;
             %>
                 <div class="score-item">
                     <div class="quiz-info">
                         <strong><%= s.title %></strong>
-                        <small><%= new Date(s.played_at).toLocaleDateString('fi-FI') %></small>
+                        <small><%= new Date(s.completed_at).toLocaleDateString('fi-FI') %></small>
                     </div>
                     
                     <div class="score-value">
                         <span class="points"><%= s.score %> / <%= s.total_questions %></span>
                         
                         <div class="progress-bar-bg" style="margin: 10px 0;">
-                            <div id="progress-bar" style="--p: <%= percent %>%;"></div>
+                            <div class="progress-fill" style="width: <%- percent %>%; background-color: #f1dc8d; height: 100%; border-radius: 5px;"></div>
                         </div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
     <% } else { %>
         <div class="empty-state" style="text-align: center; padding: 40px;">
             <p>You haven't played any quizzes yet.</p>
-            <a href="/" class="btn-discover">Find Quizzes</a>
+            <a href="/" class="btn-discover" style="display: inline-block; margin-top: 15px; background: #154162; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Find Quizzes</a>
         </div>
     <% } %>
   </div>

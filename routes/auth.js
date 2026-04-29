@@ -59,13 +59,22 @@ router.get("/profile", async (req, res) => {
   if (!req.session.user) return res.redirect("/auth/login");
 
   try {
-    const [scores] = await db.query(
-      "SELECT scores.*, quizzes.title FROM scores JOIN quizzes ON scores.quiz_id = quizzes.id WHERE scores.user_id = ? ORDER BY played_at DESC",
+    const [results] = await db.query(
+      `SELECT ur.*, q.title 
+       FROM user_results ur 
+       JOIN quizzes q ON ur.quiz_id = q.id 
+       WHERE ur.user_id = ? 
+       ORDER BY ur.completed_at DESC`,
       [req.session.user.id],
     );
-    res.render("auth/profile", { title: "My Profile", scores });
+
+    res.render("auth/profile", {
+      title: "My Profile",
+      user: req.session.user,
+      results: results,
+    });
   } catch (error) {
-    console.error(error);
+    console.error("Ошибка загрузки профиля:", error);
     res.status(500).send("Error loading profile");
   }
 });

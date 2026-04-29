@@ -1,9 +1,27 @@
-<div class="auth-container">
-  <h2>Register to Tietovisa</h2>
-  <form action="/auth/register" method="post">
-    <input type="text" name="username" placeholder="Username" required />
-    <input type="password" name="password" placeholder="Password" required />
-    <button type="submit" class="btn-new">Sign Up</button>
-  </form>
-  <p>Already have an account? <a href="/auth/login">Login here</a></p>
+<div class="auth-page">
+  <div class="card">
+    <h2>Register to Tietovisa</h2>
+    <form action="/auth/register" method="post">
+      <label>Username</label>
+      <input
+        type="text"
+        name="username"
+        placeholder="Create a username"
+        required
+      />
+
+      <label>Password</label>
+      <input
+        type="password"
+        name="password"
+        placeholder="Create a password"
+        required
+      />
+
+      <button type="submit" class="auth-btn">Sign Up</button>
+    </form>
+    <p class="switch">
+      Already have an account? <a href="/auth/login">Login here</a>
+    </p>
+  </div>
 </div>

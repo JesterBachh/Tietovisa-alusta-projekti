@@ -1,62 +1,77 @@
-<%- include('../layout') %>
+<main class="container">
+  <h1><%= query.quiz_id ? 'Add next question' : 'Create quiz' %></h1>
+  <p><%= query.quiz_id ? 'Keep adding questions to your quiz' : 'Fill in the details below to create a new quiz' %></p>
 
-<main class="main-wrapper">
+  <form action="/quiz/make" method="POST" class="quiz-creation-grid">
+    
+    <% if (query.quiz_id) { %>
+      <input type="hidden" name="quiz_id" value="<%= query.quiz_id %>">
+      <input type="hidden" name="category_id" value="<%= query.category_id %>">
+    <% } %>
 
-    <section class="quiz-meta">
-
-        <h1>Create Quiz</h1>
-        <p>Fill in the details below to create a new quiz</p>
-        
-        <form action="/quiz/make" method="post" id="quizForm">
-
-            <div class="input-block">
-                <label for="category-id">Category</label>
-                <select name="category-id" id="category-id">
-                    <% categories.forEach(cat => {
-                        <option value="<%= cat.id %>"><%= cat.name %></option>
-                        <% });
-                </select>
-            </div>
-        </form>
-
-    </section>
-
-    <section class="question-builder">
-        <h2>Questions</h2>
-
-        <div class="question-box">
-            <span class="q-label">Question 1</span>
-
-            <input type="text" name="question-input" class="question-input" placeholder="Enter your question" form="quizForm">
-
-            <div class="status-row">
-                <div class="indicator">
-                    <div class="dot-green"></div>
-                    <span>Answer A</span>
-                </div>
-
-                <div class="indicator">
-                    <div class="dot"></div> 
-                    <span>Correct answer</span>
-                </div>
-            </div>
-
-            <p class="q-label">Answers</p>
-            <div class="answers-container">
-                <input type="text" class="answer-field" name="answer_a" placeholder="Answer A" form="quizForm">
-                <input type="text" class="answer-field" name="answer_b" placeholder="Answer B" form="quizForm">
-                <input type="text" class="answer-field" name="answer_c" placeholder="Answer C" form="quizForm">
-                <input type="text" class="answer-field" name="answer_d" placeholder="Answer D" form="quizForm">
-            </div>
-
-            <div class="correct-tag">Correct ✏️</div>
-
-            <div class="action-buttons">
-                <button type="submit" form="quiaForm" class="btn btn-green">Submit Quiz</button>
-                <button type="button" class="btn btn-yellow">Add new question</button>
-            </div>
+    <div class="left-column">
+      <% if (!query.quiz_id) { %>
+        <div class="input-block">
+          <label>Quiz title</label>
+          <input type="text" name="title" placeholder="Your quiz..." required>
         </div>
-    </section>
+
+        <div class="input-block">
+          <label>Category</label>
+          <select name="category_id" required>
+            <option value="" disabled selected>Choose category↓</option>
+            <% categories.forEach(cat => { %>
+              <option value="<%= cat.id %>"><%= cat.name %></option>
+            <% }); %>
+          </select>
+        </div>
+      <% } else { %>
+        <div class="status-card" style="background: #e1f5fe; padding: 15px; border-radius: 10px;">
+          <p><b>Status:</b> Adding questions...</p>
+          <a href="/" class="btn-back" style="color: #666; text-decoration: underline;">← Back to Main Page</a>
+        </div>
+      <% } %>
+    </div>
+
+    <div class="right-column questions-section">
+      <h3>Questions</h3>
+      <div class="question-card">
+        <label>Enter question</label>
+        <input type="text" name="question_text" placeholder="Enter your question" required>
+        
+        <p style="margin: 10px 0 5px; font-size: 0.9em; color: #666;">
+          Type answers and select the <b>correct</b> one:
+        </p>
+
+        <div class="answers-grid">
+          <% [0, 1, 2, 3].forEach(i => { %>
+            <div class="answer-row">
+              <input type="radio" name="correct_answer_index" value="<%= i %>" <%= i === 0 ? 'checked' : '' %>>
+              <input type="text" name="options" placeholder="Answer <%= ['A','B','C','D'][i] %>" required>
+            </div>
+          <% }) %>
+        </div>
+
+        <div class="form-footer" style="display: flex; gap: 10px; margin-top: 20px;">
+          <button type="submit" name="action" value="next" class="btn-submit">Next Question</button>
+          
+          <button type="submit" name="action" value="finish" class="btn-submit" style="background: #3498db;">Finish & Save</button>
+          
+          <% if (!query.quiz_id) { %>
+            <a href="/" class="btn-submit" style="background: #95a5a6; text-decoration: none; text-align: center; color: white;">Cancel</a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </form>
 </main>
 
-<%- include('./footer') %>
+<style>
+  .quiz-creation-grid { display: flex; gap: 40px; margin-top: 20px; }
+  .left-column { flex: 1; }
+  .right-column { flex: 1.5; background: #f0f0f0; padding: 20px; border-radius: 15px; }
+  .answer-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .answer-row input[type="text"] { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+  .btn-submit { color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+  .btn-submit:hover { opacity: 0.9; }
+</style>

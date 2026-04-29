@@ -22,19 +22,26 @@
 </div>
 
 <script>
-  const questions = JSON.parse("<%- JSON.stringify(questions) %>");
+  const questions = <%- JSON.stringify(questions) %>;
+
   let currentQuestionIndex = 0;
   let score = 0;
 
   function showQuestion() {
+    if (questions.length === 0) return;
+
     const q = questions[currentQuestionIndex];
     document.getElementById("question-text").innerText = q.question_text;
 
     const container = document.getElementById("options-container");
     container.innerHTML = "";
 
-    const options =
-      typeof q.options === "string" ? JSON.parse(q.options) : q.options;
+    let options = [];
+    try {
+      options = typeof q.options === "string" ? JSON.parse(q.options) : q.options;
+    } catch (e) {
+      console.error("Error parsing options:", e);
+    }
 
     options.forEach((opt) => {
       const btn = document.createElement("button");
@@ -52,11 +59,20 @@
     const allBtns = document.querySelectorAll(".option-btn");
     allBtns.forEach((b) => (b.disabled = true));
 
-    if (selected === correct) {
+    if (String(selected) === String(correct)) {
       btn.style.backgroundColor = "#2ecc71";
+      btn.style.color = "white";
       score++;
     } else {
       btn.style.backgroundColor = "#E74C3C";
+      btn.style.color = "white";
+
+      allBtns.forEach(b => {
+          if (String(b.innerText) === String(correct)) {
+              b.style.backgroundColor = "#2ecc71";
+              b.style.color = "white";
+          }
+      });
     }
 
     document.getElementById("next-btn").style.display = "block";
@@ -75,27 +91,26 @@
   function showResults() {
     document.getElementById("question-card").style.display = "none";
     document.getElementById("result-card").style.display = "block";
-    document.getElementById("score-text").innerText =
-      `Your score: ${score} / ${questions.length}`;
+    document.getElementById("score-text").innerText = `Your score: ${score} / ${questions.length}`;
     document.getElementById("progress-bar").style.width = "100%";
-
-    const quizId = quentions[0].category_id;
 
     fetch("/quiz/save-score", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
-        quiz_id: "<%= quiz.id%>",
+        quiz_id: "<%= quiz.id %>",
         score: score,
         total_questions: questions.length,
       }),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Score saved:", data);
-      })
-      .catch((err) => console.error("Error saving score:", err));
+    .then((res) => res.json())
+    .then((data) => console.log("Score saved:", data))
+    .catch((err) => console.error("Error saving score:", err));
   }
 
-  if (questions.length > 0) showQuestion();
+  if (questions && questions.length > 0) {
+    showQuestion();
+  } else {
+    document.getElementById("question-text").innerText = "No questions found for this quiz.";
+  }
 </script>

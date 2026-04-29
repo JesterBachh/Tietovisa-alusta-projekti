@@ -43,6 +43,9 @@ CREATE TABLE scores (
     FOREIGN KEY (quiz_id) REFERENCES quizzes(id)
 );
 
+ALTER TABLE questions ADD COLUMN quiz_id INT;
+ALTER TABLE questions ADD FOREIGN KEY (quiz_id) REFERENCES quizzes(id);
+
 INSERT INTO categories (name) VALUES ('Math'), ('History'), ('Science'), ('Films');
 INSERT INTO quizzes (title, category_id, creator_id) VALUES ('Math Basic Test', 1, NULL);
 

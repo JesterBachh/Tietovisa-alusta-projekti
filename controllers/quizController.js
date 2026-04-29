@@ -6,10 +6,11 @@ exports.getQuizzesByCategory = async (req, res) => {
       "SELECT * FROM quizzes WHERE category_id = ?",
       [req.params.id],
     );
-    const [[category]] = await db.query(
+    const [categories] = await db.query(
       "SELECT name FROM categories WHERE id = ?",
       [req.params.id],
     );
+    const category = categories[0];
     res.render("quiz/list", {
       quizzes,
       title: category ? category.name : "Quizzes",
@@ -56,6 +57,7 @@ exports.postMakeQuiz = async (req, res) => {
   const {
     title,
     category_id,
+    new_category_name,
     question_text,
     options,
     correct_answer_index,
@@ -65,11 +67,21 @@ exports.postMakeQuiz = async (req, res) => {
   const creator_id = req.session.user ? req.session.user.id : null;
 
   try {
+    let currentCategoryId = category_id;
     let currentQuizId = quiz_id;
+
+    if (currentCategoryId === "new" && new_category_name) {
+      const [catResult] = await db.query(
+        "INSERT INTO categories (name) VALUES (?)",
+        [new_category_name.trim()],
+      );
+      currentCategoryId = catResult.insertId;
+    }
+
     if (!currentQuizId) {
       const [result] = await db.query(
         "INSERT INTO quizzes (title, category_id, creator_id) VALUES (?, ?, ?)",
-        [title, category_id, creator_id],
+        [title, currentCategoryId, creator_id],
       );
       currentQuizId = result.insertId;
     }
@@ -79,19 +91,22 @@ exports.postMakeQuiz = async (req, res) => {
       "INSERT INTO questions (quiz_id, category_id, question_text, correct_answer, options) VALUES (?, ?, ?, ?, ?)",
       [
         currentQuizId,
-        category_id,
+        currentCategoryId,
         question_text,
         correctAnswerText,
         JSON.stringify(options),
       ],
     );
 
-    action === "next"
-      ? res.redirect(
-          `/quiz/make?quiz_id=${currentQuizId}&category_id=${category_id}`,
-        )
-      : res.redirect("/");
+    if (action === "next") {
+      res.redirect(
+        `/quiz/make?quiz_id=${currentQuizId}&category_id=${currentCategoryId}`,
+      );
+    } else {
+      res.redirect("/");
+    }
   } catch (error) {
+    console.error("DB Error:", error);
     res.status(500).send("Database Error");
   }
 };

@@ -74,7 +74,7 @@ router.get("/profile", async (req, res) => {
       results: results,
     });
   } catch (error) {
-    console.error("Ошибка загрузки профиля:", error);
+    console.error("Loading error:", error);
     res.status(500).send("Error loading profile");
   }
 });

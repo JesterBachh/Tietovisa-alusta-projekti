@@ -1,6 +1,8 @@
 <main class="container">
-  <h1><%= query.quiz_id ? 'Add next question' : 'Create quiz' %></h1>
-  <p><%= query.quiz_id ? 'Keep adding questions to your quiz' : 'Fill in the details below to create a new quiz' %></p>
+  <div class="quiz-setup-header">
+    <h1><%= query.quiz_id ? 'Add Next Question' : 'Create New Quiz' %></h1>
+    <p><%= query.quiz_id ? 'Keep adding questions to your quiz' : 'Fill in the details below to create a new quiz' %></p>
+  </div>
 
   <form action="/quiz/make" method="POST" class="quiz-creation-grid">
     
@@ -12,36 +14,43 @@
     <div class="left-column">
       <% if (!query.quiz_id) { %>
         <div class="input-block">
-          <label>Quiz title</label>
-          <input type="text" name="title" placeholder="Your quiz..." required>
+          <label>Quiz Title</label>
+          <input type="text" name="title" placeholder="e.g., Science Trivia" required>
         </div>
 
         <div class="input-block">
           <label>Category</label>
-          <select name="category_id" required>
+          <select name="category_id" id="category-select" required onchange="toggleNewCategoryField()">
             <option value="" disabled selected>Choose category↓</option>
             <% categories.forEach(cat => { %>
               <option value="<%= cat.id %>"><%= cat.name %></option>
             <% }); %>
+            <option value="new">+ Add New Category...</option>
           </select>
         </div>
+
+        <div id="new-category-input" class="custom-category-box" style="display: none;">
+            <label>New Category Name</label>
+            <input type="text" name="new_category_name" placeholder="Enter category name...">
+            <small>It will be saved automatically with your quiz</small>
+        </div>
       <% } else { %>
-        <div class="status-card" style="background: #e1f5fe; padding: 15px; border-radius: 10px;">
+        <div class="status-card">
           <p><b>Status:</b> Adding questions...</p>
-          <a href="/" class="btn-back" style="color: #666; text-decoration: underline;">← Back to Main Page</a>
+          <a href="/" class="cancel-link">← Cancel and Back</a>
         </div>
       <% } %>
     </div>
 
     <div class="right-column questions-section">
-      <h3>Questions</h3>
+      <h3>Question Details</h3>
       <div class="question-card">
-        <label>Enter question</label>
-        <input type="text" name="question_text" placeholder="Enter your question" required>
+        <div class="input-block">
+            <label>Question Text</label>
+            <input type="text" name="question_text" placeholder="Enter your question" required>
+        </div>
         
-        <p style="margin: 10px 0 5px; font-size: 0.9em; color: #666;">
-          Type answers and select the <b>correct</b> one:
-        </p>
+        <p class="instruction-text">Type answers and select the <b>correct</b> one:</p>
 
         <div class="answers-grid">
           <% [0, 1, 2, 3].forEach(i => { %>
@@ -52,26 +61,28 @@
           <% }) %>
         </div>
 
-        <div class="form-footer" style="display: flex; gap: 10px; margin-top: 20px;">
-          <button type="submit" name="action" value="next" class="btn-submit">Next Question</button>
-          
-          <button type="submit" name="action" value="finish" class="btn-submit" style="background: #3498db;">Finish & Save</button>
-          
-          <% if (!query.quiz_id) { %>
-            <a href="/" class="btn-submit" style="background: #95a5a6; text-decoration: none; text-align: center; color: white;">Cancel</a>
-          <% } %>
+        <div class="form-actions">
+          <button type="submit" name="action" value="next" class="btn-next">Next Question</button>
+          <button type="submit" name="action" value="finish" class="btn-finish">Finish & Save</button>
         </div>
       </div>
     </div>
   </form>
 </main>
 
-<style>
-  .quiz-creation-grid { display: flex; gap: 40px; margin-top: 20px; }
-  .left-column { flex: 1; }
-  .right-column { flex: 1.5; background: #f0f0f0; padding: 20px; border-radius: 15px; }
-  .answer-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .answer-row input[type="text"] { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-  .btn-submit { color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-  .btn-submit:hover { opacity: 0.9; }
-</style>
+<script>
+function toggleNewCategoryField() {
+    const select = document.getElementById('category-select');
+    const newCatDiv = document.getElementById('new-category-input');
+    const input = newCatDiv.querySelector('input');
+    
+    if (select.value === 'new') {
+        newCatDiv.style.display = 'block';
+        input.required = true;
+    } else {
+        newCatDiv.style.display = 'none';
+        input.required = false;
+        input.value = '';
+    }
+}
+</script>

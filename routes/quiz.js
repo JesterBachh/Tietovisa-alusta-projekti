@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const quizController = require("../controllers/quizController");
-const resultsController = require("../controllers/resultsController"); // Добавили новый контроллер
+const resultsController = require("../controllers/resultsController");
 const checkAuth = require("../middleware/checkAuth");
 
 router.get("/make", checkAuth, quizController.getMakePage);

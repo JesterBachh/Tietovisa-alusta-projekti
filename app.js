@@ -6,6 +6,8 @@ const session = require("express-session");
 
 const authRoutes = require("./routes/auth");
 const quizRoutes = require("./routes/quiz");
+const adminRoutes = require("./routes/admin");
+const categoryRoutes = require("./routes/category");
 
 const app = express();
 
@@ -32,10 +34,13 @@ app.set("views", path.join(__dirname, "views"));
 app.use(expressLayouts);
 app.set("layout", "layout");
 
+app.use("/admin", adminRoutes);
+app.use("/category", categoryRoutes);
 app.use("/auth", authRoutes);
 app.use("/quiz", quizRoutes);
 
 const db = require("./config/db");
+
 app.get("/", async (req, res) => {
   try {
     const [categories] = await db.query("SELECT * FROM categories");
@@ -45,8 +50,15 @@ app.get("/", async (req, res) => {
     });
   } catch (error) {
     console.error("Error DB query:", error);
-    res.render("index", { title: "Tietovisa - Error", categories: [] });
+    res.render("index", {
+      title: "Tietovisa - Error",
+      categories: [],
+    });
   }
+});
+
+app.use((req, res) => {
+  res.status(404).redirect("/");
 });
 
 const PORT = process.env.PORT || 3000;

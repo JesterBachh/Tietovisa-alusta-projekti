@@ -54,3 +54,14 @@ VALUES (1, 'What is 2 + 2?', '4', '["2", "4", "6", "8"]');
 
 INSERT INTO questions (category_id, question_text, correct_answer, options) 
 VALUES (1, 'What is 5 * 5?', '25', '["10", "20", "25", "30"]');
+
+RENAME TABLE scores TO user_results;
+ALTER TABLE user_results CHANGE played_at completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE questions DROP FOREIGN KEY questions_ibfk_2;
+ALTER TABLE questions ADD CONSTRAINT questions_ibfk_2 FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE;
+
+ALTER TABLE user_results DROP FOREIGN KEY user_results_ibfk_2;
+ALTER TABLE user_results ADD CONSTRAINT user_results_ibfk_2 FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE;
+
+UPDATE users SET role = 'admin' WHERE username = 'Denys Kosovych';

@@ -1,13 +1,17 @@
 <section class="hero">
-    <h1>Tervetuloa Tietovisaan!</h1>
-    <p>Valitse kategoria и aloita oppiminen.</p>
+    <h1>Welcome Tietovisaan!</h1>
+    <p>Choose a category and start learning!</p>
 </section>
 
 <div class="category-grid">
-    <% categories.forEach(cat => { %>
-        <div class="category-card">
-            <h2><%= cat.name %></h2>
-            <a href="/quiz/category/<%= cat.id %>" class="btn-start">Check quiz →</a>
-        </div>
-    <% }) %>
-</div>\\\\
+    <% if (categories && categories.length > 0) { %>
+        <% categories.forEach(cat => { %>
+            <div class="category-card">
+                <h2><%= cat.name %></h2>
+                <a href="/quiz/category/<%= cat.id %>" class="btn-start">Check quiz →</a>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p>No categories found.</p>
+    <% } %>
+</div>

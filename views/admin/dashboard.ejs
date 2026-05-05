@@ -1,0 +1,29 @@
+<main class="container">
+    <h1>Admin Dashboard</h1>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px; background: white;">
+        <thead>
+            <tr style="background: #154162; color: white; text-align: left;">
+                <th style="padding: 12px;">ID</th>
+                <th style="padding: 12px;">Title</th>
+                <th style="padding: 12px;">Category</th>
+                <th style="padding: 12px;">Author</th>
+                <th style="padding: 12px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% quizzes.forEach(quiz => { %>
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 12px;"><%= quiz.id %></td>
+                    <td style="padding: 12px;"><%= quiz.title %></td>
+                    <td style="padding: 12px;"><%= quiz.category_name %></td>
+                    <td style="padding: 12px;"><%= quiz.username || 'System' %></td>
+                    <td style="padding: 12px;">
+                        <form action="/admin/quiz/delete/<%= quiz.id %>" method="POST" onsubmit="return confirm('ADMIN: Delete this quiz permanently?')">
+                            <button type="submit" style="color: white; background: red; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Delete Any</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</main>

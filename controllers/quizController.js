@@ -64,7 +64,18 @@ exports.postMakeQuiz = async (req, res) => {
     quiz_id,
     action,
   } = req.body;
+
   const creator_id = req.session.user ? req.session.user.id : null;
+  if (!creator_id) {
+    return res.status(401).send("You must be logged in to create a quiz.");
+  }
+
+  if (!quiz_id && !title)
+    return res.status(400).send("Quiz title is required.");
+  if (!question_text) return res.status(400).send("Question text is required.");
+  if (!options || options.some((opt) => !opt.trim())) {
+    return res.status(400).send("All answer options must be filled.");
+  }
 
   try {
     let currentCategoryId = category_id;
@@ -107,6 +118,6 @@ exports.postMakeQuiz = async (req, res) => {
     }
   } catch (error) {
     console.error("DB Error:", error);
-    res.status(500).send("Database Error");
+    res.status(500).send("Database Error occurred while saving the quiz.");
   }
 };

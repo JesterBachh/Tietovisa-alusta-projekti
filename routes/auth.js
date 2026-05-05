@@ -42,7 +42,11 @@ router.post("/login", async (req, res) => {
           username: user.username,
           role: user.role,
         };
-        return res.redirect("/");
+
+        return req.session.save((err) => {
+          if (err) return res.status(500).send("Session error");
+          res.redirect("/");
+        });
       }
     }
     res.send("Invalid credentials.");

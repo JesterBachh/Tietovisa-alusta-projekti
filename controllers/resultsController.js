@@ -1,3 +1,5 @@
+const db = require("../config/db");
+
 exports.saveScore = async (req, res) => {
   const { quiz_id, score, total_questions } = req.body;
   const user_id = req.session.user ? req.session.user.id : null;

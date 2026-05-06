@@ -1,0 +1,30 @@
+<main class="container">
+    <div class="admin-header">
+        <h1>Questions for: <%= quiz.title %></h1>
+        <a href="/admin/dashboard" class="btn-back">← Back to Dashboard</a>
+    </div>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Question Text</th>
+                <th>Correct Answer</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% questions.forEach(q => { %>
+                <tr>
+                    <td><%= q.question_text %></td>
+                    <td><span class="badge-success"><%= q.correct_answer %></span></td>
+                    <td class="actions-cell">
+                        <a href="/admin/questions/edit/<%= q.id %>" class="btn-edit">Edit</a>
+                        <form action="/admin/questions/delete/<%= q.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Delete this question?')">
+                            <button type="submit" class="btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</main>

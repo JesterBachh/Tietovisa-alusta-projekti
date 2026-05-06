@@ -1,10 +1,10 @@
 <main class="container">
   <div class="quiz-setup-header">
-    <h1><%= query.quiz_id ? 'Add Next Question' : 'Create New Quiz' %></h1>
-    <p><%= query.quiz_id ? 'Keep adding questions to your quiz' : 'Fill in the details below to create a new quiz' %></p>
+    <h1><%= query.quiz_id ? 'Add Question' : 'Create New Quiz' %></h1>
+    <p><%= query.quiz_id ? 'Continue adding questions to your quiz' : 'Fill in the details below to get started' %></p>
   </div>
 
-  <form action="/quiz/make" method="POST" class="quiz-creation-grid">
+  <form action="/quiz/make" method="POST" class="quiz-creation-grid" id="quizForm">
     
     <% if (query.quiz_id) { %>
       <input type="hidden" name="quiz_id" value="<%= query.quiz_id %>">
@@ -15,13 +15,13 @@
       <% if (!query.quiz_id) { %>
         <div class="input-block">
           <label>Quiz Title</label>
-          <input type="text" name="title" placeholder="e.g., Science Trivia" required>
+          <input type="text" name="title" placeholder="e.g., History of Cinema" required>
         </div>
 
         <div class="input-block">
           <label>Category</label>
           <select name="category_id" id="category-select" required onchange="toggleNewCategoryField()">
-            <option value="" disabled selected>Choose category↓</option>
+            <option value="" disabled selected>Select Category ↓</option>
             <% categories.forEach(cat => { %>
               <option value="<%= cat.id %>"><%= cat.name %></option>
             <% }); %>
@@ -32,38 +32,47 @@
         <div id="new-category-input" class="custom-category-box" style="display: none;">
             <label>New Category Name</label>
             <input type="text" name="new_category_name" placeholder="Enter category name...">
-            <small>It will be saved automatically with your quiz</small>
+            <small>It will be saved together with the first question</small>
         </div>
       <% } else { %>
-        <div class="status-card">
-          <p><b>Status:</b> Adding questions...</p>
-          <a href="/" class="cancel-link">← Cancel and Back</a>
+        <div class="status-card" style="background: #e3f2fd; padding: 15px; border-radius: 8px; border: 1px solid #90caf9;">
+          <p style="margin: 0; color: #1565c0;"><b>Status:</b> Adding questions...</p>
+          <p style="font-size: 0.9em; color: #555;">Quiz ID: <%= query.quiz_id %></p>
+          <hr>
+          <a href="/" class="cancel-link" style="color: #d32f2f; text-decoration: none; font-size: 0.9em;">← Cancel and Exit</a>
         </div>
       <% } %>
     </div>
 
     <div class="right-column questions-section">
       <h3>Question Details</h3>
-      <div class="question-card">
+      <div class="question-card" style="background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
         <div class="input-block">
             <label>Question Text</label>
             <input type="text" name="question_text" placeholder="Enter your question" required>
         </div>
         
-        <p class="instruction-text">Type answers and select the <b>correct</b> one:</p>
+        <p class="instruction-text">Enter answer options and select the <b>correct</b> one:</p>
 
         <div class="answers-grid">
           <% [0, 1, 2, 3].forEach(i => { %>
-            <div class="answer-row">
+            <div class="answer-row" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
               <input type="radio" name="correct_answer_index" value="<%= i %>" <%= i === 0 ? 'checked' : '' %>>
-              <input type="text" name="options" placeholder="Answer <%= ['A','B','C','D'][i] %>" required>
+              <input type="text" name="options" placeholder="Option <%= ['A','B','C','D'][i] %>" required style="flex-grow: 1; padding: 8px;">
             </div>
           <% }) %>
         </div>
 
-        <div class="form-actions">
-          <button type="submit" name="action" value="next" class="btn-next">Next Question</button>
-          <button type="submit" name="action" value="finish" class="btn-finish">Finish & Save</button>
+        <div class="form-actions" style="margin-top: 20px; display: flex; gap: 10px;">
+          <button type="submit" name="action" value="next" class="btn-next" 
+                  style="background: #154162; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+            + Next Question
+          </button>
+          
+          <button type="submit" name="action" value="finish" class="btn-finish"
+                  style="background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+            Finish and Save
+          </button>
         </div>
       </div>
     </div>

@@ -1,0 +1,28 @@
+<main class="container">
+    <h1>Edit Question</h1>
+
+    <% const currentOptions = JSON.parse(question.options); %>
+
+    <form action="/admin/questions/edit/<%= question.id %>" method="POST" class="edit-form">
+        <div class="input-block">
+            <label>Question Text</label>
+            <input type="text" name="question_text" value="<%= question.question_text %>" required>
+        </div>
+
+        <div class="answers-edit-grid">
+            <label>Answers (Select the correct one):</label>
+            <% currentOptions.forEach((opt, i) => { %>
+                <div class="answer-row">
+                    <input type="radio" name="correct_answer_index" value="<%= i %>" 
+                           <%= opt === question.correct_answer ? 'checked' : '' %>>
+                    <input type="text" name="options[]" value="<%= opt %>" required>
+                </div>
+            <% }) %>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save">Update Question</button>
+            <a href="/admin/quiz/<%= question.quiz_id %>/questions" class="btn-cancel">Cancel</a>
+        </div>
+    </form>
+</main>

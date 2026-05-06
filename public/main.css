@@ -194,3 +194,28 @@ body {
   color: var(--primary-color, #333);
   margin-right: 10px;
 }
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-logo-img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 600px) {
+  .nav-logo-img {
+    height: 30px;
+  }
+  .logo span {
+    font-size: 1.2rem;
+  }
+}

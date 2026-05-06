@@ -24,16 +24,14 @@ exports.getDashboard = async (req, res) => {
 };
 
 exports.deleteQuiz = async (req, res) => {
+  const quizId = req.params.id;
   try {
-    await db.query("DELETE FROM quizzes WHERE id = ?", [req.params.id]);
+    await db.query("DELETE FROM questions WHERE quiz_id = ?", [quizId]);
+    await db.query("DELETE FROM quizzes WHERE id = ?", [quizId]);
+
     res.redirect("/admin/dashboard");
   } catch (error) {
-    res.status(500).send("Error deleting quiz");
+    console.error(error);
+    res.status(500).send("Error deleting quiz and its questions");
   }
 };
-
-exports.getCategories = (req, res) =>
-  res.render("admin/categories", {
-    title: "Manage Categories",
-    user: req.session.user,
-  });

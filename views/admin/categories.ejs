@@ -1,0 +1,40 @@
+<main class="container">
+    <h1>Manage Categories</h1>
+
+    <section style="margin-bottom: 30px; background: #f4f4f4; padding: 20px; border-radius: 8px;">
+        <h3>Add New Category</h3>
+        <form action="/admin/categories/add" method="POST" style="display: flex; gap: 10px;">
+            <input type="text" name="name" placeholder="Category Name" required 
+                   style="padding: 8px; flex-grow: 1; border-radius: 4px; border: 1px solid #ccc;">
+            <button type="submit" style="background: #154162; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer;">
+                Create
+            </button>
+        </form>
+    </section>
+
+    <table style="width: 100%; border-collapse: collapse; background: white;">
+        <thead>
+            <tr style="background: #154162; color: white; text-align: left;">
+                <th style="padding: 12px;">ID</th>
+                <th style="padding: 12px;">Name</th>
+                <th style="padding: 12px;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% categories.forEach(cat => { %>
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 12px;"><%= cat.id %></td>
+                    <td style="padding: 12px;"><%= cat.name %></td>
+                    <td style="padding: 12px;">
+                        <form action="/admin/categories/delete/<%= cat.id %>" method="POST" 
+                              onsubmit="return confirm('Delete this category?')">
+                            <button type="submit" style="color: red; background: none; border: 1px solid red; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</main>

@@ -1,4 +1,4 @@
-readme_en_content = """# Tietovisa-alusta (Quiz Platform)
+# Tietovisa-alusta (Quiz Platform)
 
 A dynamic web application designed for creating and participating in interactive quizzes. Developed as a final project with a focus on role-based access control, content management, and modern user experience.
 
@@ -61,12 +61,38 @@ A dynamic web application designed for creating and participating in interactive
    `npm install`
 
 3. **Environment Configuration**
+
+   ```bash
    PORT=3000
    DB_HOST=localhost
    DB_USER=your_mysql_username
    DB_PASS=your_mysql_password
    DB_NAME=tietovisa_db
    SESSION_SECRET=a_random_secure_string
+   ```
 
-4. **Start the Application**
+4. **Database**
+
+- Open mysql terminal
+- Create a new database
+
+```bash
+CREATE DATABASE tietovisa_db;
+```
+
+- Import the provided SQL schema
+
+```bash
+mysql -u your_username -p tietovisa_db < database.sql
+```
+
+5. **Start the Application**
    `npm start`
+
+6. **Admin Access**
+
+- To access the admin panel (/admin/dashboard), log in with a user that has the admin role. You can manually set a user as admin in the database:
+
+```bash
+UPDATE users SET role = 'admin' WHERE username = 'YourUsername';
+```

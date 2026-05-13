@@ -65,6 +65,7 @@ A dynamic web application designed for creating and participating in interactive
    ```bash
    PORT=3000
    DB_HOST=localhost
+   DB_PORT=your_mysql_port
    DB_USER=your_mysql_username
    DB_PASS=your_mysql_password
    DB_NAME=tietovisa_db
